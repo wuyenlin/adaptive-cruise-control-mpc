@@ -1,0 +1,5 @@
+8th: literature survey, 
+15th: model constrain, matlab (done with reproduction)
+22nd: results, half the paper (PID comparison)
+29th: paper, presentation
+5th(ddl)
