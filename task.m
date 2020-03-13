@@ -1,18 +1,24 @@
-%% p.6
-T_eng = 0.46;
-T_brk = 0.193;
-T_s = 0.05;
-T_hw = 1.3;
+%% load parameters
+clear all;
+parameters;
 
+%%
+p = 20;
+c = 1;
+
+% define u and a_thr
 
 if u >= a_thr
-    A_f = -1/T_eng;
-    B_f = K_eng/T_eng;
+    A_c = [0 1 -T_hw; 0 0 -1; 0 0 -1/T_eng];
+    B_c = [0; 0; K_eng/T_eng];
 else
-    A_f = -1/T_brk;
-    B_f = K_brk/T_brk;
+    A_c = [0 1 -T_hw; 0 0 -1; 0 0 -1/T_brk];
+    B_c = [0; 0; K_brk/T_brk];
 end
-C_f = 1;
 
-Ac = [0 1 -T_hw; 0 0 -1; 0 0 A_f];
-Bc = [0; 0; B_f];
+C_f = eye(3);
+
+% Discretization
+A_d = eye(3) + T_s * A_c;
+B_d = T_s * B_c;
+C_d = C_f;
