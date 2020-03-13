@@ -1,5 +1,5 @@
 8th	: literature survey, introduction/ model, linearization, discretization
-15th	: MPC design, Asymptotic Stability/ Matlab Codes 
+15th	: MPC design, Asymptotic Stability
 22nd	: Matlab Codes
 29th	: results
 5th	: results and submission
