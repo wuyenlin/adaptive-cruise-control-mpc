@@ -1,0 +1,79 @@
+In this section, a model predictive control method is designed to maintain a constant distance between the target and host vehicle. Different MPC design methods were considered. 
+\begin{itemize}
+    \item Regulation of system using state-based MPC.
+    \item Output MPC with reference tracking.
+\end{itemize}
+To solve the MPC problem at every iteration, we define a general cost function as given in %REF the textbook
+. This cost function is defined as follows,
+\begin{equation}
+   V_N(x_0,u) &= \sum_{k=0}^{N-1}\big\{l(x(k),u(k)\}+V_f\big(x(N)\big)\\
+   \label{Cost function}
+\end{equation}
+\begin{center}
+    s.t. $u\in \mathbb{U}, x \in \mathbb{X}$
+\end{center}
+
+\subsection{Regulation MPC}
+Here, the distance error $\delta d$, the velocity error $\delta v$ and acceleration $\dot{v}_h$ has to be controlled to converge to the origin for a given control input command, i.e, acceleration.
+The states considered have to be constrained in order to meet the required distance and velocity between the vehicles. The ACC system is a comfort system and hence the accelerations are limited to $\dot{v}_{h_{min}}$ = $u_{min} = -3.0 m/s^2$. The maximum acceleration however depends on the $v_p$. Due to the different nature of engines between the vehicles, it may not be possible to achieve the same acceleration. Hence, the maximum acceleration $\a_{h_{max}}$ is bounded. The relation between $\dot{v}_h$ and $v_p$ is chosen linear due to the MPC problem taken. Therefore, $u_{h_{max}} = 3(1 - 0.025\cdot v_h) m/s$ \cite{ACC_SG}. It is assumed that the $v_h=40 m/s$ which results in $u_{h_{max}} = 0$. Also, a constraint is added on the rate of change of acceleration $\dot{u}$ in order to minimise jerks. This constraint is set to $|\delta \dot{u}| = 5 m/s^3$.
+Finally a minimum relative distance has to be set. The relative distance has to be larger than the minimum relative distance in order to avoid collision with the preceding target vehicle.
+Therefore the control constraints are defined as,
+% Inequalities for constraints
+State boundaries are defined as follows,
+\begin{itemize}
+    \item Maximum and minimum $v_h$: Here, only longitudinal movement of the host vehicle is considered.
+    \item Maximum and minimum $v_p$: Here, only longitudinal movement of the preceding target vehicle is considered as well. Also, it is assumed that the maximum $v_h$ is the same as the $v_p$ and both are moving in the same direction.
+    \item Since we do not consider stop-and-go function, we put limits on $v_p$ as $15 < v_t \leq v_{t_{max}}$.
+    \item Maximum relative distance is the maximum range of the radar. % REVISIT
+\end{itemize}
+
+\begin{equation}
+\label{condition1}
+    m=
+    \begin{bmatrix}
+    0 \\ 0 \\ -3
+    \end{bmatrix}
+    \leq
+    \begin{bmatrix}
+    \delta d \\ \delta v \\ u \\
+    \end{bmatrix}
+    \leq
+    \begin{bmatrix}
+    2 \\ 2.5 \\ 5 \\
+    \end{bmatrix}
+    =M
+\end{equation}
+The MPC optimisation problem to be solved for each iteration is represented by the equation ({\ref{Cost function}}) and hence is given as,
+\begin{gather}
+    \begin{aligned}
+        l\big(x(k),u(k)\big) &= x(k)^TQx(k) + u(k)^TRu(k)\\
+        V_f\big(x(N)\big) &= x(N)^TPx(N)
+    \end{aligned}
+\end{gather}
+where Q = ... , R = ... and P is the solution of the Discrete Algebraic Riccati Equation (DARE). P,Q and R are positive definite in this case. The values of R and Q were obtained in an iterative manner. 
+
+\subsection{Output MPC}
+To simulate output-based control as is the case in ACC, an output MPC controller was designed. Here, we assume there are no disturbances (they will be present, however for simplicity we will neglect it in this case). First we need to check whether the system is observable and controllable in order to design an observer state model. For reference tracking, an optimal target selection (OTS) needs to be solved offline in order to obtain $x_{ref}$ and $u_{ref}$. The OTS problem is then given as below,
+
+% Slide 6 from mpc_lec5 equations
+\begin{equation}
+(x_{ref}, u_{ref})(y_{ref}) \in
+\begin{cases}
+& \underset{x_r, u_r}{\arg\max} \: J(x_r, u_r)\\
+& \text{s.t.} \begin{bmatrix}
+                    I-A & -B \\
+                    C & 0
+                \end{bmatrix}
+                \begin{bmatrix}
+                x_r \\ u_r
+                \end{bmatrix}
+                =
+                \begin{bmatrix}
+                0 \\ y_{ref}
+                \end{bmatrix}\\
+& \quad\quad\quad  (x_r, u_r) \in \mathbb{Z} \\
+& \quad\quad\quad Cx \in \mathbb{Y}
+\end{cases}
+\end{equation}
+
+For the observer, the Kalman gain L is obtained with the weighing matrices Q - diag() and R = .. It is verified that with the new A matrix given by ($\Pi$ - LC), the error dynamics is asymptotically stable. 
