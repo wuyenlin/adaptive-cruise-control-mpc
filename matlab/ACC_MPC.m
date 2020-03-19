@@ -1,5 +1,5 @@
 clc;
-clear;
+clear all;
 
 T_eng = 0.460;
 K_eng = 0.732;
