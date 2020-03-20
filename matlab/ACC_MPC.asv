@@ -17,19 +17,17 @@ sys2 = c2d(sys1,Ts,'zoh');
 ctrbty = ctrb(sys2.A,sys2.B);
 rankctrbty = rank(ctrbty);
 obsrank = rank(obsv(sys2.A,sys2.C));
-Q = diag([1 0 0]);
+Q = diag([1 0 1]);
 R = 1;
 [P,K,L] = idare(sys2.A,sys2.B,Q,R);
 Ad = sys2.A-K*sys2.C;
 sys3 = ss(Ad,sys2.B,K*C_f,0);
 sys3 = c2d(sys3,0.05,'zoh');
 
-% check if system is observable
-% and if P is SPD (symmetric and positive definite)
 if rank(obsv(sys3)) & issymmetric(P)
     eigenvalue = eig(P);
     if all(eigenvalue > 0)
-        fprintf("R=1,\nP= \n");
-        disp(P);
+        fprintf("R=1,\n");
     end
 end
+P
