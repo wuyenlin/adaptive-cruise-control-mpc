@@ -17,7 +17,7 @@ C_f = eye(3);
 At = [0 1 -T_hw; 0 0 -1; 0 0 A_f];
 Bt = [0; 0; B_f];
 sys1 = ss(At,Bt,C_f,0);
-sys2 = c2d(sys1,Ts,'zoh');
+sys2 = c2d(sys1,T_s,'zoh');
 
 ctrbty = ctrb(sys2.A,sys2.B);
 rankctrbty = rank(ctrbty);

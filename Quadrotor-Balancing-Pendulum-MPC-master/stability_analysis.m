@@ -74,7 +74,7 @@ s = size(F,1);
 C_aug = [K_LQR; eye(dim.nx)];
 
 % DETERMINE MAXIMUM INVARIANT SET X_f
-% [Xf_set_H, Xf_set_h, kstar] = calcInvariantXf(A_K,C_aug,F,f,s,dim);
+[Xf_set_H, Xf_set_h, kstar] = calcInvariantXf(A_K,C_aug,F,f,s,dim);
 
 %% COMPARE WITH PEDRO CODE
 
