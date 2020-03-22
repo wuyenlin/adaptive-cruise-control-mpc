@@ -18,12 +18,15 @@ sys2 = c2d(sys1,Ts,'zoh');
 % rankctrbty = rank(ctrbty);
 % obsrank = rank(obsv(sys2.A,sys2.C));
 
-for i = 1:2:100
+for i = 1:2:50
         
     disp(i);
     
-    Q = diag([10*i 0.1*i 0.01*i]);
-    R = i;
+    % tweak Q, R with i
+    Q = diag([0.001*i 0.1*i 0.1*i]);
+    R = 100;
+    %
+    
     [P,K,L] = idare(sys2.A,sys2.B,Q,R);
     Ad = sys2.A-K*sys2.C;
     sys3 = ss(Ad,sys2.B,K*C_f,0);
