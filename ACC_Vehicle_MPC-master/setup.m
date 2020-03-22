@@ -80,22 +80,22 @@ Xref = getXref(a, v0, vdes, ts, tsim);      % generate reference trajectory for 
 
 
 % Fig 2
-sweepParamName = {'ineqMode','chkInputBoundFlag'};
-sweepParamVals = {0,false;...
-                  0,true;...
-                  2,false};
-sweepParamDisp = {'unlimited deceleration', ...
-                  'saturated deceleration', ...
-                  'constrained deceleration'};
-legendMode = 2;
-e0 = [-110; 30; 0];
+% sweepParamName = {'ineqMode','chkInputBoundFlag'};
+% sweepParamVals = {0,false;...
+%                   0,true;...
+%                   2,false};
+% sweepParamDisp = {'unlimited deceleration', ...
+%                   'saturated deceleration', ...
+%                   'constrained deceleration'};
+% legendMode = 2;
+% e0 = [-110; 30; 0];
 
 % % Fig 3
-% sweepParamName = {'sivdMode'};
-% sweepParamVals = {0;1};
-% sweepParamDisp = {'constant sivd','dynamic sivd'};
-% legendMode = 2;
-% sivdPlotMode = true;
+sweepParamName = {'sivdMode'};
+sweepParamVals = {0;1};
+sweepParamDisp = {'constant sivd','dynamic sivd'};
+legendMode = 2;
+sivdPlotMode = true;
 
 % % Fig 4
 % sweepParamName = {'tau'};

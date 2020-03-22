@@ -17,7 +17,7 @@ umpc(:,1) = 0;
 sivd(1)   = Xref(2);
 
 % Options structure for the QP Solver
-options = optimoptions('quadprog','Algorithm','active-set','Display','off','TolFun',0.001);
+options = optimoptions('quadprog','Algorithm','interior-point-convex','Display','off','TolFun',0.001);
 
 % Simulating over N time steps
 for k = 1:Nsim

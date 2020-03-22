@@ -40,10 +40,10 @@ genPlots(simOutputArray,sivdPlotMode);
 
 % Uncomment to plot absolute position and velocity of ACC and target
 % vehicle
-% plotAbsolute(simOutputArray, Xref);       
+plotAbsolute(simOutputArray, Xref);       
 
 % Uncomment to plot optimiztion cost at all time steps
-% plotCost(simOutputArray);
+plotCost(simOutputArray);
 
 fprintf('End of program!\n')
 beep

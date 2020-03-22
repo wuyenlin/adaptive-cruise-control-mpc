@@ -18,12 +18,12 @@ sys2 = c2d(sys1,Ts,'zoh');
 % rankctrbty = rank(ctrbty);
 % obsrank = rank(obsv(sys2.A,sys2.C));
 
-for i = 1:2:1000
+for i = 1:5:100
         
     disp(i);
     
     % tweak Q, R with i
-    Q = diag([0.0001*i 0.0001*i 0.0001*i]);
+    Q = diag([0.001*i 0.1*i 0.01*i]);
     R = 10;
     %
     
@@ -50,8 +50,8 @@ for i = 1:2:1000
     % Model definition
 
     % Define model, cost function, and bounds.
-    A = sys3.A;
-    B = sys3.B;
+    A = sys2.A;
+    B = sys2.B;
     N = 20;
 
     % Bounds.

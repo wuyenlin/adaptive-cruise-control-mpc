@@ -1,13 +1,18 @@
 %clc;
 clear all;
 
+T_eng = 0.46;
+T_brk = 0.193;
+T_s = 0.05;
+T_hw = 1.3;
+K_brk = 0.979;
+
+
 T_eng = 0.460;
 K_eng = 0.732;
 A_f = -1/T_eng;
 B_f = -K_eng/T_eng;
-C_f = [1 0 0; 0 1 0; 0 0 1];
-T_hw = 1.6;
-Ts = 0.05;
+C_f = eye(3);
 
 At = [0 1 -T_hw; 0 0 -1; 0 0 A_f];
 Bt = [0; 0; B_f];
@@ -45,8 +50,8 @@ end
 %% Model definition
 
 % Define model, cost function, and bounds.
-A = sys3.A;
-B = sys3.B;
+A = sys2.A;
+B = sys2.B;
 N = 20;
 
 % Bounds.
