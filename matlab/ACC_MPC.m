@@ -87,9 +87,8 @@ ApBK = A + B*K; % LQR evolution matrix.
 
 [~, Xf.A, Xf.b] = removeredundantcon(Xf.A, Xf.b);
 %% Compute X_f.
-% 
-% Xn = struct();
-% V = struct();
-% Z = struct();
-% 
-% [Xn.('lqr'), V.('lqr'), Z.('lqr')] = findXn(A, B, K, N, xlb, xub, ulb, uub, 'lqr');
+
+Xn = struct();
+V = struct();
+Z = struct(); 
+[Xn.('lqr'), V.('lqr'), Z.('lqr')] = findXn(A, B, K, N, xlb, xub, ulb, uub, 'lqr');
