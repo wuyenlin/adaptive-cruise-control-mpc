@@ -22,8 +22,11 @@ for i = 1:2:50
         
     disp(i);
     
+    % tweak Q, R with i
     Q = diag([0.1*i 0.1*i 0.1*i]);
-    R = 50;
+    R = 0.5;
+    %
+    
     [P,K,L] = idare(sys2.A,sys2.B,Q,R);
     Ad = sys2.A-K*sys2.C;
     sys3 = ss(Ad,sys2.B,K*C_f,0);
