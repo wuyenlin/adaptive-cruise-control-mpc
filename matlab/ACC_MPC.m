@@ -1,4 +1,4 @@
-clc;
+%clc;
 clear all;
 
 T_eng = 0.460;
@@ -17,8 +17,8 @@ sys2 = c2d(sys1,Ts,'zoh');
 ctrbty = ctrb(sys2.A,sys2.B);
 rankctrbty = rank(ctrbty);
 obsrank = rank(obsv(sys2.A,sys2.C));
-Q = diag([1 0 0]);
-R = 1;
+Q = diag([100 1 0.01]);
+R = 10;
 [P,K,L] = idare(sys2.A,sys2.B,Q,R);
 Ad = sys2.A-K*sys2.C;
 sys3 = ss(Ad,sys2.B,K*C_f,0);
@@ -29,10 +29,18 @@ sys3 = c2d(sys3,0.05,'zoh');
 if rank(obsv(sys3)) && issymmetric(P)
     eigenvalue = eig(P);
     if all(eigenvalue > 0)
-        fprintf("R=1,\nP= \n");
+        fprintf("\nR= \n");
+        disp(R);
+        fprintf("\nK= \n");
+        disp(K);
+        fprintf("\nP= \n");
         disp(P);
     end
 end
+
+
+
+
 %% Find the terminal set Xf
 %% Model definition
 
@@ -43,7 +51,7 @@ N = 20;
 
 % Bounds.
 xlb = [0; 0; 15];
-xub = [0; 2.5; 40];
+xub = [2; 2.5; 40];
 ulb = -3;
 uub = 5;
 
@@ -52,10 +60,31 @@ uub = 5;
 [K, P] = dlqr(A, B, Q, R);
 K = -K; % Sign convention.
 
+%% test
+Nx = size(A, 1);
+[Az, bz] = hyperrectangle([xlb; ulb], [xub; uub]);
+Z = struct('G', Az(:,1:Nx), 'H', Az(:,(Nx + 1):end), 'psi', bz);
+
+
+[A_U, b_U] = hyperrectangle(ulb, uub);
+A_lqr = A_U*K;
+b_lqr = b_U;
+
+% State input
+[A_X, b_X] = hyperrectangle(xlb, xub);
+Acon = [A_lqr; A_X];
+bcon = [b_lqr; b_X];
+
+% Use LQR-invariant set.
+Xf = struct();
+ApBK = A + B*K; % LQR evolution matrix.
+[Xf.A, Xf.b] = calcOinf(ApBK, Acon, bcon);
+
+[~, Xf.A, Xf.b] = removeredundantcon(Xf.A, Xf.b);
 %% Compute X_f.
-
-Xn = struct();
-V = struct();
-Z = struct();
-
-[Xn.('lqr'), V.('lqr'), Z.('lqr')] = findXn(A, B, K, N, xlb, xub, ulb, uub, 'lqr');
+% 
+% Xn = struct();
+% V = struct();
+% Z = struct();
+% 
+% [Xn.('lqr'), V.('lqr'), Z.('lqr')] = findXn(A, B, K, N, xlb, xub, ulb, uub, 'lqr');
