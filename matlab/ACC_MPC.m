@@ -8,7 +8,6 @@ T_hw = 1.3;
 K_brk = 0.979;
 
 
-T_eng = 0.460;
 K_eng = 0.732;
 A_f = -1/T_eng;
 B_f = -K_eng/T_eng;
