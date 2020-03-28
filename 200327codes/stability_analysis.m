@@ -237,11 +237,11 @@ H_xyz = Xf_set_H(:,[1,2,3]);
 
 figure(3);
 plot3(H_xyz(:,1),H_xyz(:,2),H_xyz(:,3),'*m');
-grid();
-
-
-[K,V] = convhull(H_xyz(:,1),H_xyz(:,2))
-hold on
+grid on;
+view(2);
+%%
+[K,V] = convhull(H_xyz(:,1),H_xyz(:,2));
+hold on;
 plot(H_xyz(K,1),H_xyz(K,2),'r-');
 
 xx = -1:.05:1;
