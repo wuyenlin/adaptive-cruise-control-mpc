@@ -7,7 +7,6 @@
 clc
 clear
 addpath('functions/');
-
 %% DEFINE CONSTANTS
 g = 9.81;       % m/s^2
 m = 0.5;        % kg
@@ -65,10 +64,7 @@ sysd_cl_unnormalized = ss(A-B*K,B_ref,C,[],h);
 
 % normalize closed-loop reference tracking gains 
 dcgain_cl = dcgain(sysd_cl_unnormalized);
-B_ref(3,1) = 1/dcgain_cl(3,1);
-B_ref(9,2) = 1/dcgain_cl(9,2);
-B_ref(13,3) = 1/dcgain_cl(13,3);
-B_ref(15,4) = 1/dcgain_cl(15,4);
+ref(15,4) = 1/dcgain_cl(15,4);
 
 x = zeros(length(A(:,1)),T);
 u = zeros(length(B(1,:)),T);
