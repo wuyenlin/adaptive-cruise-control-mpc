@@ -7,7 +7,6 @@ T_eng = 0.460;
 K_eng = 0.732;
 A_f = -1/T_eng;
 B_f = -K_eng/T_eng;
-C_f = eye(3);
 T_hw = 1.6;
 Ts = 0.05;
 T_total = 10;
@@ -18,8 +17,9 @@ v0 = 15;
 
 At    = [0 1 -T_hw; 0 0 -1; 0 0 A_f];
 Bt    = [0; 0; B_f];
-C_f   = diag([1,0,0]);
+C_f   = eye(3);
 D     = zeros(3,1);
+
 sys1  = ss(At,Bt,C_f,D);
 sys2  = c2d(sys1,Ts,'zoh');
 A     = sys2.A;
@@ -27,54 +27,41 @@ B     = sys2.B;
 C     = sys2.C;
 D     = sys2.D;
 
-%% 
-% convert state-space representation to transfer function
+%% Convert to transfer function & apply LQR 
+
 [b,a] = ss2tf(A,B,C,D);
-sys3  = tf(b,a);
- 
-% W=input('if want to enter value of Q manually enter 1 else 2 = ')
-% if W==1
-%     Q=input('enter value of q = ')
-% else
-%     Q=transpose(C)*C
-% end
 
-
-% R=input('enter the matrix of R(no. of columns must be equal to B) = ');
-% 
-% Y=input('if want to enter value of N manually enter 1 else 2 = ')
-% if Y==1
-%     N=input('enter value of N = ')
-% else
-%     N=0
-% end
 Q = transpose(C)*C;
 R = 1;
 N = 0;
 
-[K,S,e] = LQR(A,B,Q,R,N);
-sys = ss(A,B,C,D);
+[K,S,e] = lqr(A,B,Q,R,N);
+sys4 = ss(A,B,C,D);
 
-subplot(311);
-step(sys);
+%% Plot the results
+
+figure(1);
+% step(sys4);
+
 n = length(K);
 AA = A - B * K;
-for i=1:n
-    BB(:,i)=B * K(i);
+
+for i=1 : n
+    BB(:,i) = B * K(i);
 end
 
-display(BB);
 CC = C;
 DD = D;
 
-for i=1:n
-     sys(:,i)=ss(AA,BB(:,i),CC,DD);
+for i = 1:n
+    sys4(:,i) = ss(AA,BB(:,i),CC,DD);
 end
 
+subplot(311);
+step(sys4(:,1));
+
 subplot(312);
-step(sys(:,1));
+step(sys4(:,2));
 
 subplot(313);
-step(sys(:,2))
-
-
+step(sys4(:,3))
