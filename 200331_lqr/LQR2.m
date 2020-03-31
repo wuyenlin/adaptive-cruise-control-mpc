@@ -3,15 +3,15 @@
 clear all;
 clc;
 %% System Specifications
-T_eng = 0.460;
-K_eng = 0.732;
-A_f = -1/T_eng;
-B_f = -K_eng/T_eng;
-T_hw = 1.6;
-Ts = 0.05;
-T_total = 10;
-T = T_total/Ts;
-v0 = 15;
+T_eng    = 0.460;
+K_eng    = 0.732;
+A_f      = -1/T_eng;
+B_f      = -K_eng/T_eng;
+T_hw     = 1.6;
+Ts       = 0.05;
+T_total  = 10;
+T        = T_total/Ts;
+v0       = 15;
 
 %% Create State-Space & Discretize the system
 
@@ -43,15 +43,16 @@ sys4 = ss(A,B,C,D);
 figure(1);
 % step(sys4);
 
-n = length(K);
+n  = length(K);
 AA = A - B * K;
+BB = zeros(3,length(K));
+CC = C;
+DD = D;
 
-for i=1 : n
+for i = 1:n
     BB(:,i) = B * K(i);
 end
 
-CC = C;
-DD = D;
 
 for i = 1:n
     sys4(:,i) = ss(AA,BB(:,i),CC,DD);
