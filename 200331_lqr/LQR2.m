@@ -41,7 +41,8 @@ sys4 = ss(A,B,C,D);
 %% Plot the results
 
 figure(1);
-% step(sys4);
+subplot(311);
+step(sys4);
 
 n  = length(K);
 AA = A - B * K;
@@ -51,18 +52,11 @@ DD = D;
 
 for i = 1:n
     BB(:,i) = B * K(i);
-end
-
-
-for i = 1:n
     sys4(:,i) = ss(AA,BB(:,i),CC,DD);
 end
-
-subplot(311);
-step(sys4(:,1));
 
 subplot(312);
 step(sys4(:,2));
 
 subplot(313);
-step(sys4(:,3))
+step(sys4(:,3));
