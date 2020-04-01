@@ -1,4 +1,4 @@
-function [P,S,W]=predmodgen(LTI,dim)
+function [P,S]=predmodgen(LTI,dim)
 
 %Prediction matrices generation
 %This function computes the prediction matrices to be used in the

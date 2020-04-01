@@ -28,7 +28,7 @@ C     = eye(3);
 vh = host_velocity(v0,T_total);     % Host velocity
 x0 = [5  zeros(1,length(vh)-1);     % Host intial distance error
       10 zeros(1,length(vh)-1);     % Host initial velocity error
-      vh(1) zeros(1,length(vh)-1)]; % Host intial velocity
+      vh];                          % Host intial velocity
 u  = zeros(1,length(vh));           % Input acceleration or throttle matrix
 y  = C*x0;
 xr = [zeros(1,length(vh));       
@@ -36,7 +36,8 @@ xr = [zeros(1,length(vh));
       zeros(1,length(vh));];
   
 x_ref = zeros(1,T_total);
-
+s_lb  = [0;0;15];
+s_ub  = [2;2.5;40]; 
 %Definition of the LTI system
 LTI.A = A;
 LTI.B = B;
@@ -50,22 +51,22 @@ dim.N  = 20;            % horizon
 N = dim.N;
 
 %Definition of quadratic cost function
-Q = eye(dim.ny);   %weight on output
-R = 2;             %weight on input
+Q = 10*eye(dim.ny);   % weight on output
+R = 1;                % weight on input
 %% Prediction model and cost function
 
 [P,S] = predmodgen(LTI,dim);            %Generation of prediction model 
-[H,h] = costgen(P,S,Q,R,dim,x0);           %Writing cost function in quadratic form
+[H,h] = costgen(P,S,Q,R,dim);           %Writing cost function in quadratic form
 %% To solve the quadratic MPC problem
-lb = -3*ones(N,1);
-ub =  5*ones(N,1);
-for i = 1:T_total
-    f = h*x0(:,i);
+lb = -3*ones(1,T);
+ub = 5*ones(1,T);
+for i = 1:T
+    f = zeros(3,20);
     [x_ref,~,exitflag] = quadprog(H,f,[],[],[],[],lb,ub);
     u_new(i)   = x_ref(1);
-    x0(:,i+1) = A*x0(:,i) + B*u_new(i);
-    y(:,i+1) = C*x0(:,i+1);
-    xr(:,1) = xr(:,i);
+    x0(:,i+1)  = A*x0(:,i) + B*u_new(i);
+    y(:,i+1)   = C*x0(:,i+1);
+    
     for j = 1:N-1
         if j == 1
             xr(:,j) = x0(:,1);
@@ -75,9 +76,6 @@ for i = 1:T_total
         y_ref(:,j) = C*xr(:,j);
     end
 end
-u_new = [u_new u_new(end)];
-t = [0:1:T_total];
-
 figure(1);
 subplot(3,2,1)
 stairs(u_new,'LineWidth',1.5);
@@ -92,8 +90,8 @@ subplot(3,2,4)
 stairs([0 0 1]*x0,'LineWidth',1.5)
 grid on;
 xlabel('time [seconds]')
-ylabel('$a$')
-title('State $a$')
+ylabel('$vh$')
+title('State $vh$')
 ylim('auto')
 hold on
 
@@ -101,7 +99,7 @@ subplot(3,2,3)
 stairs([1 0 0]*x0,'LineWidth',1.5)
 grid on;
 xlabel('time [seconds]')
-ylabel('$d$')
+ylabel('$delta d$')
 title('State $delta d$')
 ylim('auto')
 hold on
@@ -110,7 +108,7 @@ subplot(3,2,2)
 stairs([0 1 0]*x0,'LineWidth',1.5)
 grid on;
 xlabel('time [seconds]')
-ylabel('$v$')
+ylabel('$delta v$')
 title('State $delta v$')
 ylim('auto')
 
