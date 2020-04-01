@@ -55,7 +55,7 @@ R = 2;             %weight on input
 %% Prediction model and cost function
 
 [P,S] = predmodgen(LTI,dim);            %Generation of prediction model 
-[H,h] = costgen(P,S,Q,R,dim);           %Writing cost function in quadratic form
+[H,h] = costgen(P,S,Q,R,dim,x0);           %Writing cost function in quadratic form
 %% To solve the quadratic MPC problem
 lb = -3*ones(N,1);
 ub =  5*ones(N,1);
