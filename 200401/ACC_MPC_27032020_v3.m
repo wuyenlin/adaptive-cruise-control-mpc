@@ -47,8 +47,7 @@ LTI.C = eye(3);
 dim.nx = length(A);     % state dimension
 dim.ny = length(B);     % output dimension
 dim.nu = 1;             % input dimension
-%dim.N  = 20;            % horizon
-dim.N  = 200;            % horizon
+dim.N  = 20;            % horizon
 N = dim.N;
 
 %Definition of quadratic cost function
@@ -63,7 +62,7 @@ lb = -3*ones(1,T);
 ub = 5*ones(1,T);
 
 %%%
-f = 5*ones(200,1);
+f = 5*ones(20,1);
 [x_ref,~,exitflag] = quadprog(H,f,[],[],[],[],lb,ub);
 xr(:,1) = x0(:,1);
 y_ref(:,1) = C*xr(:,1);
@@ -77,8 +76,8 @@ end
 for i = 1:T
     %f = zeros(3,20);
     %[x_ref,~,exitflag] = quadprog(H,f,[],[],[],[],lb,ub);
-    %u_new(i)   = x_ref(1);
-    x0(:,i+1)  = A*x0(:,i) + B*x_ref(i);
+    u_new(i)   = x_ref(1);
+    x0(:,i+1)  = A*x0(:,i) + B*x_ref(1);
     y(:,i+1)   = C*x0(:,i+1);
     
 %     for j = 1:N-1
@@ -93,8 +92,8 @@ end
 
 figure(1);
 subplot(2,2,1)
-% stairs(u_new,'LineWidth',1.5);
-stairs(x_ref,'LineWidth',1.5);
+stairs(u_new,'LineWidth',1.5);
+%stairs(x_ref(1),'LineWidth',1.5);
 xlabel('time [seconds]')
 grid on;
 ylabel('u')
