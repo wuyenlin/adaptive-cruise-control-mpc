@@ -35,7 +35,7 @@ xr = [zeros(1,length(vh));
       zeros(1,length(vh));       
       zeros(1,length(vh));];
   
-x_ref = zeros(1,T_total);
+%x_ref = zeros(1,T_total);
 s_lb  = [0;0;15];
 s_ub  = [2;2.5;40]; 
 %Definition of the LTI system
@@ -47,7 +47,8 @@ LTI.C = eye(3);
 dim.nx = length(A);     % state dimension
 dim.ny = length(B);     % output dimension
 dim.nu = 1;             % input dimension
-dim.N  = 20;            % horizon
+%dim.N  = 20;            % horizon
+dim.N  = 200;            % horizon
 N = dim.N;
 
 %Definition of quadratic cost function
@@ -60,25 +61,40 @@ R = 1;                % weight on input
 %% To solve the quadratic MPC problem
 lb = -3*ones(1,T);
 ub = 5*ones(1,T);
+
+%%%
+f = 5*ones(200,1);
+[x_ref,~,exitflag] = quadprog(H,f,[],[],[],[],lb,ub);
+xr(:,1) = x0(:,1);
+y_ref(:,1) = C*xr(:,1);
+%%%
+
+for j = 1:N-2
+    xr(:,j+1) = A*xr(:,j) + B*x_ref(j);
+    y_ref(:,j+1) = C*xr(:,j+1);
+end
+
 for i = 1:T
-    f = zeros(3,20);
-    [x_ref,~,exitflag] = quadprog(H,f,[],[],[],[],lb,ub);
-    u_new(i)   = x_ref(1);
-    x0(:,i+1)  = A*x0(:,i) + B*u_new(i);
+    %f = zeros(3,20);
+    %[x_ref,~,exitflag] = quadprog(H,f,[],[],[],[],lb,ub);
+    %u_new(i)   = x_ref(1);
+    x0(:,i+1)  = A*x0(:,i) + B*x_ref(i);
     y(:,i+1)   = C*x0(:,i+1);
     
-    for j = 1:N-1
-        if j == 1
-            xr(:,j) = x0(:,1);
-        else
-        xr(:,j) = A*xr(:,j-1) + B*x_ref(j-1);
-        end
-        y_ref(:,j) = C*xr(:,j);
-    end
+%     for j = 1:N-1
+%         if j == 1
+%             xr(:,j) = x0(:,1);
+%         else
+%             xr(:,j) = A*xr(:,j-1) + B*x_ref(j-1);
+%         end
+%         y_ref(:,j) = C*xr(:,j);
+%     end
 end
+
 figure(1);
-subplot(3,2,1)
-stairs(u_new,'LineWidth',1.5);
+subplot(2,2,1)
+% stairs(u_new,'LineWidth',1.5);
+stairs(x_ref,'LineWidth',1.5);
 xlabel('time [seconds]')
 grid on;
 ylabel('u')
@@ -86,7 +102,7 @@ title('Desired Acceleration Input u')
 ylim('auto')
 hold on
 
-subplot(3,2,4)
+subplot(2,2,4)
 stairs([0 0 1]*x0,'LineWidth',1.5)
 grid on;
 xlabel('time [seconds]')
@@ -95,7 +111,7 @@ title('State $vh$')
 ylim('auto')
 hold on
 
-subplot(3,2,3)
+subplot(2,2,3)
 stairs([1 0 0]*x0,'LineWidth',1.5)
 grid on;
 xlabel('time [seconds]')
@@ -104,7 +120,7 @@ title('State $delta d$')
 ylim('auto')
 hold on
 
-subplot(3,2,2)
+subplot(2,2,2)
 stairs([0 1 0]*x0,'LineWidth',1.5)
 grid on;
 xlabel('time [seconds]')
