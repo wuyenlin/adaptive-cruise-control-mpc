@@ -72,7 +72,7 @@ for k = 1:1:T
        
     % apply control action
     x(:,k+1) = A*x(:,k) + B*u(:,k) + B_ref*r(:,k);
-    %x(3,k+1) = x(3,1) + x(3,k+1);
+    x(3,k+1) = x(3,1) + x(3,k+1)*k;
     y(:,k)   = C*x(:,k);
 end
 
