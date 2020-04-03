@@ -26,9 +26,12 @@ B     = sys2.B;
 C     = eye(3);
 % Host vehicle parameters
 vh = host_velocity(v0,T_total);     % Host velocity
-x0 = [5  zeros(1,length(vh)-1);     % Host intial distance error
-      10 zeros(1,length(vh)-1);     % Host initial velocity error
+
+sec_row = [10, zeros(1,length(vh)-1)];
+x0 = [sec_row;     % Host intial distance error
+      sec_row;     % Host initial velocity error
       vh];                          % Host intial velocity
+
 u  = zeros(1,length(vh));           % Input acceleration or throttle matrix
 y  = C*x0;
 xr = [zeros(1,length(vh));       

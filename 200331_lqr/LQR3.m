@@ -13,6 +13,8 @@ T_total  = 10; %simulation time
 T        = T_total/Ts;
 v0       = 15;
 
+vh = host_velocity(v0, T_total);
+
 %% Create State-Space & Discretize the system
 
 At    = [0 1 -T_hw; 0 0 -1; 0 0 A_f];
@@ -29,7 +31,7 @@ D     = sys2.D;
 
 %% LINEAR QUADRATIC REGULATOR
 
-x0 = [0; 0; 15];
+x0 = [zeros(1,T_total); zeros(1,T_total); vh];
 
 % reference sequence
 r = [ 0*ones(1,(T+1));
@@ -62,7 +64,7 @@ u = zeros(length(B(1,:)),T);
 y = zeros(length(C(:,1)),T);
 t = zeros(1,T);
 
-x(:,1) = x0';
+x(:,1) = x0(:,1);
 
 sat = @(s) min(max(s, -0.1), 0.1);
 
@@ -76,7 +78,7 @@ for k = 1:1:T
     
     % apply control action
     x(:,k+1) = A*x(:,k) + B*u(:,k) + B_ref*r(:,k);
-    y(:,k) = C*x(:,k);
+    y(:,k)   = C*x(:,k);
 end
 
 % states_trajectory: Nx16 matrix of trajectory of 16 states
@@ -90,3 +92,6 @@ for i = 1:3
     stairs(t, states_trajectory(:,i));
     xlabel('Time [s]')
 end  
+
+sec_row = [10, zeros()-1];
+first_row = sec_row*T
