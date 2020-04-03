@@ -72,7 +72,6 @@ for k = 1:1:T
        
     % apply control action
     x(:,k+1) = A*x(:,k) + B*u(:,k) + B_ref*r(:,k);
-    x(3,k+1) = x(3,1) + x(3,k+1)*k;
     y(:,k)   = C*x(:,k);
 end
 
@@ -81,8 +80,18 @@ states_trajectory = y';
 %% PLOT RESULTS
 % plot 2D results
 figure(99);
-for i = 1:3
-    subplot(3,1,i);
-    stairs(t, states_trajectory(:,i));
-    xlabel('Time [s]')
-end  
+
+subplot(3,1,1);
+stairs(t, states_trajectory(:,1));
+xlabel('Time [s]')
+ylabel("");
+
+subplot(3,1,2);
+stairs(t, states_trajectory(:,2));
+xlabel('Time [s]')
+ylabel();
+
+subplot(3,1,3);
+stairs(t, v0*ones(1,T));
+xlabel('Time [s]');
+ylabel();
