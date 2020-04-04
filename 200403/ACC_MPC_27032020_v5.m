@@ -24,21 +24,23 @@ sys2  = c2d(sys1,Ts,'zoh');
 A     = sys2.A;
 B     = sys2.B;
 C     = eye(3);
+
 % Host vehicle parameters
-vh = host_velocity(v0,T);               % Host velocity
+vh      = host_velocity(v0,T);          % Host velocity
 sec_row = [5, zeros(1,length(vh)-1)];
 x0      = [sec_row;                     % Host intial distance error
            sec_row;                     % Host initial velocity error
            vh];                         % Host intial velocity           
-u  = zeros(1,length(vh));               % Input acceleration or throttle matrix
+u       = zeros(1,length(vh));          % Input acceleration or throttle matrix
   
-xr = [zeros(1,length(vh));       
-      zeros(1,length(vh));       
-      zeros(1,length(vh));];
+xr    = [u;       
+         u;       
+         u];
   
 x     = [zeros(1,T_total);zeros(1,T_total);zeros(1,T_total)];
 s_lb  = [0;0;15];
 s_ub  = [2;2.5;40]; 
+
 %Definition of the LTI system
 LTI.A = A;
 LTI.B = B;
@@ -62,7 +64,8 @@ Sbar = S;
 
 %% Prediction model and cost function
 [P,S] = predmodgen(LTI,dim);
-[H,h]=costgen(P,S,Q,R,dim);
+[H,h] = costgen(P,S,Q,R,dim);
+
 %% MPC Problem
 
 umin = -3*ones(N,1);
@@ -76,11 +79,13 @@ for i = 1:T
     xr(:,i+1) = A*xr(:,i) + B*u(i);
         y(:,i)  = C*xr(:,i+1);
         x(:,1) = xr(:,i);
-        for j =1:N-1
-            x(:,j+1) = A*x(:,j)+B*ures(j);
+        for j = 1:N-1
+            x(:,j+1) = A*x(:,j) + B*ures(j);
             y_res(:,j) = C*x(:,j);
         end
 end
+
+%% plot results
 
 figure(1);
 subplot(2,2,1)
@@ -97,8 +102,8 @@ subplot(2,2,4)
 stairs([0 0 1]*xr,'LineWidth',1.5)
 grid on;
 xlabel('time [seconds]')
-ylabel('$vh$')
-title('State $vh$')
+ylabel('v_h [m/s]')
+title('State v_h')
 ylim('auto')
 hold on
 
@@ -106,8 +111,8 @@ subplot(2,2,3)
 stairs([1 0 0]*xr,'LineWidth',1.5)
 grid on;
 xlabel('time [seconds]')
-ylabel('$delta d$')
-title('State $delta d$')
+ylabel('\deltad [m]')
+title('State \deltad')
 ylim('auto')
 hold on
 
@@ -115,7 +120,7 @@ subplot(2,2,2)
 stairs([0 1 0]*xr,'LineWidth',1.5)
 grid on;
 xlabel('time [seconds]')
-ylabel('$delta v$')
-title('State $delta v$')
+ylabel('\deltav [m/s]')
+title('State \deltav')
 ylim('auto')
             
