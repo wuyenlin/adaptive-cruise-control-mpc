@@ -53,38 +53,43 @@ dim.nu = 1;             % input dimension
 dim.N  = 20;            % horizon
 N = dim.N;
 
-%Definition of quadratic cost function
-Q = eye(size(A,1));   % weight on output
-R = 1;                % weight on input
+w_idx = [0.1,1,10];
+for w = w_idx
+    %Definition of quadratic cost function
+    Q = w*eye(size(A,1));   % weight on output
+    R = 1;                  % weight on input
 
-[S,~,~] = dare(A,B,Q,R);
-Qbar = kron(Q,eye(N));
-Rbar = kron(R,eye(N));
-Sbar = S;
+    [S,~,~] = dare(A,B,Q,R);
+    Qbar = kron(Q,eye(N));
+    Rbar = kron(R,eye(N));
+    Sbar = S;
 
-%% Prediction model and cost function
-[P,S] = predmodgen(LTI,dim);
-[H,h] = costgen(P,S,Q,R,dim);
+    %% Prediction model and cost function
+    [P,S] = predmodgen(LTI,dim);
+    [H,h] = costgen(P,S,Q,R,dim);
 
-%% MPC Problem
+    %% MPC Problem
 
-umin = -3*ones(N,1);
-umax = 5*ones(N,1);
-xr(:,1) = x0(:,1);
-y(:,1) = C*x0(:,1);
-for i = 1:T
-    f = S'*Qbar*P*xr(:,i);
-    [ures,~,exitflag] = quadprog(H,f,[],[],[],[],umin,umax);
-    u(i) = ures(1);
-    xr(:,i+1) = A*xr(:,i) + B*u(i);
-        y(:,i)  = C*xr(:,i+1);
-        x(:,1) = xr(:,i);
-        for j = 1:N-1
-            x(:,j+1) = A*x(:,j) + B*ures(j);
-            y_res(:,j) = C*x(:,j);
-        end
+    umin = -3*ones(N,1);
+    umax = 5*ones(N,1);
+    xr(:,1) = x0(:,1);
+    y(:,1) = C*x0(:,1);
+    for i = 1:T
+        f = S'*Qbar*P*xr(:,i);
+        [ures,~,exitflag] = quadprog(H,f,[],[],[],[],umin,umax);
+        u(i) = ures(1);
+        xr(:,i+1) = A*xr(:,i) + B*u(i);
+            y(:,i)  = C*xr(:,i+1);
+            x(:,1) = xr(:,i);
+            for j = 1:N-1
+                x(:,j+1) = A*x(:,j) + B*ures(j);
+                y_res(:,j) = C*x(:,j);
+            end
+    end
+
+    %% plot results
+
+    plot_mpc(u,xr);
+    legend({'W=0.1','W=1','W=10'});
+    
 end
-
-%% plot results
-
-plot_mpc(u,xr);     
