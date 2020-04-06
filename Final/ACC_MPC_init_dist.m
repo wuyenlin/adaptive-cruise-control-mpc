@@ -72,7 +72,7 @@ for id = init_dist
         bueq = y(:,1);
         options = optimoptions('quadprog','Display','off');
         warning off;
-        [ures,~,exitflag] = quadprog(H,f,Aueq,bueq,[],[],umin,umax,[],options);
+        [ures,~,exitflag] = quadprog(H,f,[],[],Aueq,bueq,umin,umax,[],options);
         u(i) = ures(1);
         xr(:,i+1)  = A*xr(:,i) + B*u(i);
             y(:,i) = C*xr(:,i+1);
