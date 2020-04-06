@@ -2,6 +2,7 @@
 % Nikhil Hudrali Nagendra // Yen-Lin Wu
 clc;
 clear all;
+close all;
 %% Define system specifications (assuming the target is lagging behind the host vehicle)
 
 T_eng     = 0.460;
@@ -92,5 +93,19 @@ for k = horiz
 
 %% plot results
     plot_mpc(u,xr,t);
-    legend({'N=5','N=10','N=20','N=50','N=100','N=200'});
 end
+
+subplot(411);
+legend({'N=5','N=10','N=20','N=50','N=100','N=200'},'NumColumns',2);
+axis([0 10 -1 6]);
+
+subplot(412);
+legend({'N=5','N=10','N=20','N=50','N=100','N=200'},'NumColumns',2);
+
+
+subplot(413);
+legend({'N=5','N=10','N=20','N=50','N=100','N=200'},'NumColumns',2);
+axis([0 10 -8 8]);
+
+subplot(414);
+legend({'N=5','N=10','N=20','N=50','N=100','N=200'},'NumColumns',2);

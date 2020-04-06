@@ -2,6 +2,7 @@
 % Nikhil Hudrali Nagendra // Yen-Lin Wu
 clc;
 clear all;
+close all;
 %% Define system specifications (assuming the target is lagging behind the host vehicle)
 
 T_eng     = 0.460;
@@ -84,8 +85,19 @@ for w = w_idx
             end
     end
 %% plot results
-
     plot_mpc(u,xr,t);
-    legend({'W=0.1','W=1','W=10'});
-    
 end
+
+subplot(411);
+legend({'W=0.1','W=1','W=10'});
+axis([0 10 -2 6]);
+
+subplot(412);
+legend({'W=0.1','W=1','W=10'});
+
+subplot(413);
+legend({'W=0.1','W=1','W=10'});
+axis([0 10 -10 10]);
+
+subplot(414);
+legend({'W=0.1','W=1','W=10'});

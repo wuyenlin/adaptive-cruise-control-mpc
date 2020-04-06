@@ -91,3 +91,9 @@ for i = 1:4
     subplot(4,1,i);
     legend({'init\_dist=5m'});
 end
+
+subplot(412);
+axis([0 10 -2 6]);
+
+subplot(413);
+axis([0 10 -4 6]);
