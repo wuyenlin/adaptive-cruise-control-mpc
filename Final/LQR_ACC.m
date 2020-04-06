@@ -83,5 +83,5 @@ axis([0 10 -1 6]);
 subplot(412);
 axis([0 10 -1 6]);
 
-subplot(412);
+subplot(413);
 axis([0 10 -3 6]);
