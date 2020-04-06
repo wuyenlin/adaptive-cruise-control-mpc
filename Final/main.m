@@ -17,6 +17,7 @@ pause(1);
 choice = input('Please choose --> ');
 switch choice
     case 1
+        close all;
         figure(1);
         ACC_MPC_Final;
         disp('Do you want to run another simulation?');
@@ -27,6 +28,7 @@ switch choice
             disp('Goodbye!');
         end
     case 2
+        close all;
         figure(2);
         LQR_ACC;
         disp('Do you want to run another simulation?');
@@ -37,6 +39,7 @@ switch choice
             disp('Goodbye!');
         end
     case 3
+        close all;
         figure(3);
         ACC_MPC_varying_N;
         disp('Do you want to run another simulation?');
@@ -47,6 +50,7 @@ switch choice
             disp('Goodbye!');
         end
     case 4
+        close all;
         figure(4);
         ACC_MPC_varying_Q;
         disp('Do you want to run another simulation?');
@@ -57,6 +61,7 @@ switch choice
             disp('Goodbye!');
         end
     case 5
+        close all;
         figure(5);
         ACC_MPC_varying_R;
         disp('Do you want to run another simulation?');
@@ -67,6 +72,7 @@ switch choice
             disp('Goodbye!');
         end
     case 6
+        close all;
         figure(6);
         ACC_MPC_init_dist;
         disp('Do you want to run another simulation?');
