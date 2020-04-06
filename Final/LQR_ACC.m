@@ -54,12 +54,13 @@ y = zeros(length(C(:,1)),T);
 t = zeros(1,T);
 
 x(:,1) = x0(:,1);
+sat = @(s) min(max(s, -3), 5);
 
 for k = 1:1:T
     t(k) = (k-1)*Ts;
     % compute control action
     u(:,k) = -K*x(:,k);  
-       
+    u(:,k) = sat(u(:,k));   
     % apply control action
     x(:,k+1) = A*x(:,k) + B*u(:,k);
     y(:,k)   = C*x(:,k);
@@ -76,13 +77,3 @@ for i = 1:4
     subplot(4,1,i);
     legend({'LQR Output','MPC Output'});
 end
-
-subplot(411);
-axis([0 10 -1 6]);
-
-subplot(412);
-axis([0 10 -1 6]);
-
-subplot(412);
-axis([0 10 -3 6]);
-
