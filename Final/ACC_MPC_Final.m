@@ -86,3 +86,8 @@ for id = init_dist
     %% plot results
     plot_mpc(u,xr,t);
 end
+
+for i = 1:4
+    subplot(4,1,i);
+    legend({'init\_dist=5m','init\_dist=10m'});
+end
