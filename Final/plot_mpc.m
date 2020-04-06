@@ -1,6 +1,6 @@
 function plot_mpc(u,xr,t)
 
-subplot(221);
+subplot(411);
 stairs(t,u,'LineWidth',1.5);
 grid on;
 xlabel('time [seconds]');
@@ -9,7 +9,7 @@ title('Desired Acceleration Input u');
 ylim('auto');
 hold on;
 
-subplot(223);
+subplot(413);
 stairs(t,xr(1,1:end-1),'LineWidth',1.5);
 grid on;
 xlabel('time [seconds]');
@@ -18,7 +18,7 @@ title('State \deltad');
 ylim('auto');
 hold on;
 
-subplot(222);
+subplot(412);
 stairs(t,xr(2,1:end-1),'LineWidth',1.5);
 grid on;
 xlabel('time [seconds]');
@@ -27,7 +27,7 @@ title('State \deltav');
 ylim('auto');
 hold on;
 
-subplot(224);
+subplot(414);
 stairs(t,xr(3,1)*ones(1,size(u,2)),'LineWidth',1.5);
 grid on;
 xlabel('time [seconds]');
