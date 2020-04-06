@@ -2,6 +2,7 @@
 % Nikhil Hudrali Nagendra // Yen-Lin Wu
 clc;
 clear all;
+close all;
 %% Define system specifications (assuming the target is lagging behind the host vehicle)
 
 T_eng     = 0.460;

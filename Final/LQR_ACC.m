@@ -76,3 +76,13 @@ for i = 1:4
     subplot(4,1,i);
     legend({'LQR Output','MPC Output'});
 end
+
+subplot(411);
+axis([0 10 -1 6]);
+
+subplot(412);
+axis([0 10 -1 6]);
+
+subplot(412);
+axis([0 10 -3 6]);
+
