@@ -14,7 +14,7 @@ Ts        = 0.05;
 T_total   = 10;
 T         = T_total/Ts;
 v0        = 15;           % Initial target velocity
-init_dist = 5;            % Intial distance between vehicles
+init_dist = 10;            % Intial distance between vehicles
 
 %% Discretize the system
 
@@ -85,3 +85,8 @@ end
 %% plot results
 
 plot_mpc(u,xr);
+
+for i = 1:4
+    subplot(4,1,i);
+    legend({'init\_dist=5m','init\_dist=10m'});
+end
