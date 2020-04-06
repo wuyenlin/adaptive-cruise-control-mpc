@@ -78,24 +78,10 @@ end
 states_trajectory = y';
 
 %% PLOT RESULTS
-% plot 2D results
+
+
 figure(99);
+plot_lqr(v0, states_trajectory, T);
 
-subplot(3,1,1);
-stairs(t, states_trajectory(:,1));
-xlabel('Time [s]')
-ylabel("\deltad [m]");
-title("LQR Results");
-axis([0 10 -6 2]);
-grid on;
-
-subplot(3,1,2);
-stairs(t, states_trajectory(:,2));
-xlabel('Time [s]')
-ylabel("\deltav [m/s]");
-grid on;
-
-subplot(3,1,3);
-stairs(t, v0*ones(1,T));
-xlabel('Time [s]');
-ylabel("host velocity v_h [m/s]");
+subplot(4,1,1);
+axis([0 200 -6 1]);
