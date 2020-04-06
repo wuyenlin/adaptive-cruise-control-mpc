@@ -67,6 +67,7 @@ R = w*1;              % weight on input
     xr(:,1) = x0(:,1);
     y(:,1)  = C*x0(:,1);
     for i = 1:T
+        t(i) = (i-1)*Ts;
         f = h*xr(:,i);
         Aueq = C*x0(:,1:N);
         bueq = y(:,1);
@@ -84,7 +85,7 @@ R = w*1;              % weight on input
     end
 %% plot results
 
-    plot_mpc(u,xr);
+    plot_mpc(u,xr,t);
     legend({'W=0.1','W=1','W=10'});
     
 end

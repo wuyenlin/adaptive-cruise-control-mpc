@@ -73,6 +73,7 @@ for k = horiz
     xr(:,1) = x0(:,1);
     y(:,1)  = C*x0(:,1);
     for i = 1:T
+        t(i) = (i-1)*Ts;
         f = h*xr(:,i);
         Aueq = C*x0(:,1:N);
         bueq = y(:,1);
@@ -90,6 +91,6 @@ for k = horiz
     end
 
 %% plot results
-    plot_mpc(u,xr);
+    plot_mpc(u,xr,t);
     legend({'N=5','N=10','N=20','N=50','N=100','N=200'});
 end
