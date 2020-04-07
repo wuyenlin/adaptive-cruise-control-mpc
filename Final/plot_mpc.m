@@ -28,11 +28,12 @@ ylim('auto');
 hold on;
 
 subplot(414);
-stairs(t,xr(3,1)*ones(1,size(u,2)),'LineWidth',1.5);
+%stairs(t,xr(3,1)*ones(1,size(u,2)),'LineWidth',1.5);
+stairs(t,xr(3,1:end-1),'LineWidth',1.5);
 grid on;
 xlabel('time [seconds]');
-ylabel('v_h [m/s]');
-title('State v_h');
+ylabel('\textbf{$\dot{v}_h$} [m/s]','interpreter','latex');
+title('\textbf{State $\dot{v}_h$}','interpreter','latex');
 ylim('auto');
 hold on;
 
