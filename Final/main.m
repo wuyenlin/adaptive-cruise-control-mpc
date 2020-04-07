@@ -6,8 +6,8 @@ close all;
 
 disp('Model Predictive Control of a Basic Adaptive Cruise Control');
 disp('Choose one of the options below');
-disp('1. Basic ACC.');
-disp('2. ACC MPC and ACC LQR Comparison.');
+disp('1. Basic ACC');
+disp('2. ACC MPC and ACC LQR Comparison');
 disp('3. MPC of ACC with varying prediction horizon N');
 disp('4. MPC of ACC with varying Q');
 disp('5. MPC of ACC with varying R');
