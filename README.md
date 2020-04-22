@@ -5,7 +5,7 @@ Through simulations in MATLAB, it is shown that the proposed MPC strategy is abl
 
 ![](https://i.imgur.com/hwmI7oa.png)
 
-This final project is a part of requirement of course SC42125 Model Predictive Control at TU Delft and is completed by Nikhil Nagendra and Yen-Lin Wu. 
+This final project is a part of requirement of the course SC42125 Model Predictive Control (2019/20) at TU Delft and is completed by Nikhil Nagendra and Yen-Lin Wu. 
 
 ## Reference
 ```
