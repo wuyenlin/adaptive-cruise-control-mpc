@@ -1,3 +1,4 @@
+# Adaptive Cruise Control Project with MPC
 ## Model Predictive Control- Final Project
 
 A model predictive control (MPC) approach is implemented on a basic Adaptive Cruise Control (ACC) system. A vehicle is moving with a constant velocity and a following vehicle approaches the preceding vehicle and should maintain the same velocity. Using an MPC controller, the required stability with the specified input constraints and the target velocity for a constant preceding vehicle velocity is achieved. The outcome is compared with that using an Linear Quadratic Regulator (LQR).
@@ -5,7 +6,7 @@ Through simulations in MATLAB, it is shown that the proposed MPC strategy is abl
 
 ![](https://i.imgur.com/hwmI7oa.png)
 
-This final project is a part of requirement of the course SC42125 Model Predictive Control (2019/20) at TU Delft and is completed by Nikhil Nagendra and Yen-Lin Wu. 
+This final project is a part of requirement of the course SC42125 Model Predictive Control (2019/20) at TU Delft and is completed by 2 MSc Mechanical Engineering students, Nikhil Nagendra and Yen-Lin Wu. 
 
 ## Reference
 ```
