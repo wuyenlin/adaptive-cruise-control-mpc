@@ -6,6 +6,7 @@ clear all;
 close all;
 addpath('Code/');
 
+%%
 disp('--- Model Predictive Control of a Basic Adaptive Cruise Control ---');
 disp('Choose one of the options below');
 disp('1. Basic ACC');
